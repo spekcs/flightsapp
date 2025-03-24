@@ -5,6 +5,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+
 data = {
    "count": 0,
    "data": []
@@ -104,3 +105,6 @@ def get_flights():
    filtered_data = filter_data(page_offset, limit, date, time_start, time_end, dept_airport, arr_airport, airline)
 
    return filtered_data;
+
+if __name__ == "__main__":
+   app.run(host="0.0.0.0", port=3000)
