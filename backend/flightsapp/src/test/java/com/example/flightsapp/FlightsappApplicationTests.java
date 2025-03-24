@@ -1,10 +1,10 @@
-package ee.flightsapp.flights;
+package com.example.flightsapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FlightsApplicationTests {
+class FlightsappApplicationTests {
 
 	@Test
 	void contextLoads() {
