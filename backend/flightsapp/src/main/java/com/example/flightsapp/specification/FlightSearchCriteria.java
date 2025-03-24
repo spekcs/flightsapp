@@ -1,8 +1,6 @@
 package com.example.flightsapp.specification;
 
 
-import java.time.LocalDate;
-
 public record FlightSearchCriteria (
         Integer pageOffset,
         Integer limit,
@@ -11,8 +9,6 @@ public record FlightSearchCriteria (
         String timeEnd,
         String departureAirport,
         String arrivalAirport,
-        String airline,
-        String sortBy,
-        String direction
+        String airline
 ){
 }

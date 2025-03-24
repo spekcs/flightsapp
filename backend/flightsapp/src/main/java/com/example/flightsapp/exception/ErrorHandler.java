@@ -10,6 +10,12 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 
 @ControllerAdvice
 public class ErrorHandler {
+    @ExceptionHandler(ExternalAPIException.class)
+    public ResponseEntity<Object> handleExternalAPIException(ExternalAPIException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_GATEWAY);
+    }
+
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String message = e.getBindingResult().getFieldErrors().stream()
