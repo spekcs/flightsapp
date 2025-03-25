@@ -12,3 +12,4 @@ public record FlightSearchCriteria (
         String airline
 ){
 }
+
