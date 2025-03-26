@@ -1,19 +1,22 @@
-import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import {BrowserRouter, Routes, Route } from "react-router-dom";
+import Flights from "@/pages/Flights"
+import Seats from "@/pages/Seats"
+import Register from "@/pages/Register"
+import Login from "@/pages/Login"
+import Profile from "@/pages/Profile"
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <p>Clicked {count} times</p>
-      <Button variant="outline" onClick={handleClick}>Click me</Button>
-    </div>
-  )
+  return(
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Flights />} />
+        <Route path="/seats:/id" element={<Seats />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="profile" element={<Profile />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
