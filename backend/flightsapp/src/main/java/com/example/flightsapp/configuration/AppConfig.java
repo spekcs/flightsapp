@@ -1,4 +1,4 @@
-package com.example.flightsapp.controller.configuration;
+package com.example.flightsapp.configuration;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
