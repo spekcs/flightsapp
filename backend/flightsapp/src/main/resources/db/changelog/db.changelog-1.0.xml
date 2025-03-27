@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+        <changeSet id="27-03-2024 Init" author="S">
+            <createTable tableName="users">
+                <column name="user_id" type="bigint" autoIncrement="ture">
+                    <constraints primaryKey="true" nullable="false" /></column>
+                <column name="username" type="text"/>
+                <column name="password" type="text"/>
+            </createTable>
+            
+            <createTable tableName="flights">
+                <column name="flight_id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false" />
+                </column>
+                <column name="departure_airport" type="text"/>
+                <column name="arrival_airport" type="text" />
+                <column name="date" type="text"/>
+                <column name="departure_time" type="text"/>
+                <column name="arrival_time" type="text"/>
+                <column name="flight_time_minutes" type="int"/>
+                <column name="airline" type="text"/>
+            </createTable>
+
+            <createTable tableName="booking">
+                <column name="booking_id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="user_id" type="bigint"/>
+                <column name="flight_id" type="bigint"/>
+            </createTable>
+
+            <createTable tableName="booked_seats">
+                <column name="booked_seat_id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="seat_code" type="text"/>
+                <column name="booking_id" type="bigint"/>
+            </createTable>
+
+            <addForeignKeyConstraint baseTableName="booked_seats" baseColumnNames="booking_id"
+                                     constraintName="fk_booking" referencedTableName="bookings"
+                                     referencedColumnNames="booking_id"/>
+            <addForeignKeyConstraint baseTableName="booking" baseColumnNames="user_id" constraintName="fk_user"
+                                     referencedTableName="users"
+                                     referencedColumnNames="user_id"/>
+            <addForeignKeyConstraint baseTableName="booking" baseColumnNames="flight_id" constraintName="fk_flight"
+                                     referencedTableName="flights"
+                                     referencedColumnNames="flight_id"/>
+        </changeSet>
+
+</databaseChangeLog>
