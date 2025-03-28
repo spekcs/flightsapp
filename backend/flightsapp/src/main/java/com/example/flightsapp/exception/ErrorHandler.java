@@ -21,6 +21,11 @@ public class ErrorHandler {
     }
 
 
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<Object> handleNotFoundException(ApplicationException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String message = e.getBindingResult().getFieldErrors().stream()
