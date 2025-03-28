@@ -65,6 +65,15 @@ def filter_data(offset, limit, date, time_start, time_end, dept_airport, arr_air
             end = datetime.strptime(time_end, "%H:%M").time()
             if not (start <= datetime.fromisoformat(flight["departure_time"]).time() <= end):
                continue
+         elif time_start:
+            start = datetime.strptime(time_start, "%H:%M").time()
+            if not (start <= datetime.fromisoformat(flight["departure_time"]).time()):
+               continue
+         elif time_end:
+            end = datetime.strptime(time_end, "%H:%M").time()
+            if not (datetime.fromisoformat(flight["departure_time"]).time() <= end):
+               continue
+            
 
          filtered_flights["pagination"]["total"] += 1
          filtered_flights["data"].append(flight)

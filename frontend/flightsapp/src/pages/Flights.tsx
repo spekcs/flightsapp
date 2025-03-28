@@ -1,39 +1,68 @@
 import {
     NavigationMenu,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
 
+import { FilterSidebar } from "@/components/ui/filter-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/useAuth";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 function Flights() {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn: initialIsLoggedIn } = useAuth();
+    const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
+  
+    const handleSignout = () => {
+      localStorage.removeItem("jwt")
+      setIsLoggedIn(false);
+    }
+  
+    useEffect(() => {
+      const authStatus = localStorage.getItem("jwt")
+      setIsLoggedIn(!!authStatus)
+    }, []);
+  
+    const handleApplyFilters = (values) => {
+      console.log(values)
+    }
 
-    return (
+    return (<>
         <div className="flex justify-end pt-2 pr-2">
         <NavigationMenu>
           <NavigationMenuList className="flex space-x-1">
                 {!isLoggedIn ? (<>
             <NavigationMenuItem>
-              <Link to="/login">
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Link to="/login" className={navigationMenuTriggerStyle()}>
                   Sign in
-                </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="/register">
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Link to="/register" className={navigationMenuTriggerStyle()}>
                   Sign up
-                </NavigationMenuLink>
               </Link>
-            </NavigationMenuItem></>) : (<p>logged in</p>)}
+            </NavigationMenuItem></>) : (<>
+              <NavigationMenuItem>
+                <Button onClick={handleSignout} variant="link">Sign out</Button>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+              <Link to="/profile" className={navigationMenuTriggerStyle()}>
+                  Profile
+              </Link>
+              </NavigationMenuItem></>
+            )}
           </NavigationMenuList>
         </NavigationMenu>
         </div>
+        <SidebarProvider>
+        <FilterSidebar onSubmit={handleApplyFilters} />
+            <SidebarTrigger/>
+      </SidebarProvider>
+      </>
       )
     }
 

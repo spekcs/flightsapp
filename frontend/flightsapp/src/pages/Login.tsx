@@ -23,7 +23,7 @@ function Login() {
             navigate("/")
         }).catch(error => {
             console.error("Error fetching data", error);
-            setErrorMessage(error.response.data.message)
+            setErrorMessage(error.response.data.message || error.message)
         })
 
     }

@@ -30,7 +30,7 @@ function LoginForm({ onSubmit }: LoginFormProps) {
             username: "",
             password: ""
         }
-    })
+    });
 
     return (
         <div>
