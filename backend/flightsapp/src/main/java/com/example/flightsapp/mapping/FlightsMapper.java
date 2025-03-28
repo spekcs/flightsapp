@@ -13,9 +13,12 @@ public interface FlightsMapper {
     FlightDto toDto(FlightEntity flightEntity);
     FlightEntity toEntity(FlightDto flightDto);
     List<FlightDto> toDtoList(List<FlightsAPIFlight> flightEntities);
+
     default FlightDto toDto(FlightsAPIFlight flightsAPIFlight) {
-        int flightTimeMinutes = 0; //TODO: calculate
-        FlightDto dto = new FlightDto(
+        int departureTimeMinutes = 60 * Integer.parseInt(flightsAPIFlight.departure_time().substring(0,2)) + Integer.parseInt(flightsAPIFlight.departure_time().substring(3));
+        int arrivalTimeMinutes = 60 * Integer.parseInt(flightsAPIFlight.arrival_time().substring(0,2)) + Integer.parseInt(flightsAPIFlight.arrival_time().substring(3));
+        int flightTimeMinutes = arrivalTimeMinutes - departureTimeMinutes;
+        return new FlightDto(
                 flightsAPIFlight.departure_airport(),
                 flightsAPIFlight.arrival_airport(),
                 flightsAPIFlight.flight_date(),
@@ -24,7 +27,6 @@ public interface FlightsMapper {
                 flightTimeMinutes,
                 flightsAPIFlight.airline()
         );
-        return dto;
     }
 
 }

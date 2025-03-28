@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "bookings", schema = "public")
+@Table(name = "bookings")
 public class BookingEntity {
     @Id
     @GeneratedValue

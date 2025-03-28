@@ -9,12 +9,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "flights", schema = "public")
+@Table(name = "flights")
 public class FlightEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "flight_id")
-    private Integer flightId;
+    private Integer id;
     @Column(name = "departure_airport")
     private String departureAirport;
     @Column(name = "arrival_airport")
@@ -25,8 +25,6 @@ public class FlightEntity {
     private String departureTime;
     @Column(name = "arrival_time")
     private String arrivalTime;
-    @Column(name = "flight_time_minutes")
-    private Integer flightTimeMinutes;
     @Column(name = "airline")
     private String airline;
 

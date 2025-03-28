@@ -8,7 +8,6 @@ import com.example.flightsapp.exception.ExternalAPIException;
 import com.example.flightsapp.mapping.FlightsMapper;
 import com.example.flightsapp.specification.FlightSearchCriteria;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -21,7 +20,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FlightsService {
-    @Autowired
     private final RestTemplate restTemplate;
     private final FlightsMapper flightsMapper;
 
