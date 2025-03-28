@@ -59,4 +59,21 @@
                                      referencedColumnNames="flight_id"/>
         </changeSet>
 
+        <changeSet id="28-03-2024" author="S">
+            <addColumn tableName="booked_seats">
+                <column name="flight_id" type="bigint"/>
+            </addColumn>
+            <addForeignKeyConstraint baseTableName="booked_seats" baseColumnNames="flight_id" constraintName="fk_flight"
+                                     referencedTableName="flights"
+                                     referencedColumnNames="flight_id"/>
+        </changeSet>
+
+        <changeSet id="28-03-2024:2" author="S">
+            <insert tableName="users">
+                <column name="user_id" value="0"/>
+                <column name="username" value="admin"/>
+                <column name="password" value="$2a$12$KOGIIt9.5D8hkFL9XTR1/OcRA7UvYbBHXNUwi3f2uv7.jnjRmZame"/>
+            </insert>
+        </changeSet>
+
 </databaseChangeLog>

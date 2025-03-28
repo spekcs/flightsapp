@@ -2,6 +2,7 @@ package com.example.flightsapp.controller.dto;
 
 
 public record FlightDto (
+        Long flightId,
     String departureAirport,
     String arrivalAirport,
     String date,

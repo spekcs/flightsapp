@@ -5,23 +5,34 @@ import com.example.flightsapp.controller.dto.FlightsAPIFlight;
 import com.example.flightsapp.controller.dto.FlightsAPIResponseObject;
 import com.example.flightsapp.controller.dto.PageResponse;
 import com.example.flightsapp.exception.ExternalAPIException;
+import com.example.flightsapp.exception.NotFoundException;
 import com.example.flightsapp.mapping.FlightsMapper;
+import com.example.flightsapp.repository.FlightEntity;
+import com.example.flightsapp.repository.FlightRepository;
 import com.example.flightsapp.specification.FlightSearchCriteria;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.swing.text.html.Option;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.WeakHashMap;
 
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FlightsService {
     private final RestTemplate restTemplate;
     private final FlightsMapper flightsMapper;
+    private final FlightRepository flightRepository;
 
     public PageResponse<FlightDto> getFlights(FlightSearchCriteria criteria) {
         String uri = "http://localhost:3000";
@@ -44,6 +55,28 @@ public class FlightsService {
             throw new ExternalAPIException(String.format("External API error, code %s", response.error()));
         }
 
-        return new PageResponse<>(flightsMapper.toDtoList(response.data()), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
+        List<FlightEntity> flightEntities = new ArrayList<>();
+        for (FlightsAPIFlight flight : response.data()) {
+            Optional<FlightEntity> flightEntityOptional = flightRepository.findByDepartureAirportAndDepartureTimeAndDate(
+                    flight.departure_airport(), flight.departure_time(),flight.flight_date());
+            if (flightEntityOptional.isPresent()) {
+                flightEntities.add(flightEntityOptional.get());
+                continue;
+            }
+
+            FlightEntity flightEntity = flightsMapper.toEntity(flight);
+            flightRepository.save(flightEntity); //Added ID
+            flightEntities.add(flightEntity);
+        }
+
+        return new PageResponse<>(flightsMapper.toDtoList(flightEntities), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
+    }
+
+    public ResponseEntity<FlightDto> getFlight(Long id) {
+        Optional<FlightEntity> flightEntity = flightRepository.findById(id);
+        if (flightEntity.isEmpty()) {
+            throw new NotFoundException("Flight not found.");
+        }
+        return ResponseEntity.ok(flightsMapper.toDto(flightEntity.get()));
     }
 }

@@ -15,6 +15,11 @@ public class ErrorHandler {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_GATEWAY);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

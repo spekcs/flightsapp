@@ -10,22 +10,31 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlightsMapper {
-    FlightDto toDto(FlightEntity flightEntity);
-    FlightEntity toEntity(FlightDto flightDto);
-    List<FlightDto> toDtoList(List<FlightsAPIFlight> flightEntities);
+    default FlightEntity toEntity(FlightsAPIFlight flightsAPIFlight) {
+        FlightEntity flightEntity = new FlightEntity();
+        flightEntity.setDepartureAirport(flightsAPIFlight.departure_airport());
+        flightEntity.setDepartureTime(flightsAPIFlight.departure_time());
+        flightEntity.setAirline(flightsAPIFlight.airline());
+        flightEntity.setArrivalAirport(flightsAPIFlight.arrival_airport());
+        flightEntity.setArrivalTime(flightsAPIFlight.arrival_time());
+        flightEntity.setDate(flightsAPIFlight.flight_date());
+        return flightEntity;
+    }
+    List<FlightDto> toDtoList(List<FlightEntity> flightEntities);
 
-    default FlightDto toDto(FlightsAPIFlight flightsAPIFlight) {
-        int departureTimeMinutes = 60 * Integer.parseInt(flightsAPIFlight.departure_time().substring(0,2)) + Integer.parseInt(flightsAPIFlight.departure_time().substring(3));
-        int arrivalTimeMinutes = 60 * Integer.parseInt(flightsAPIFlight.arrival_time().substring(0,2)) + Integer.parseInt(flightsAPIFlight.arrival_time().substring(3));
+    default FlightDto toDto(FlightEntity flightEntity) {
+        int departureTimeMinutes = 60 * Integer.parseInt(flightEntity.getDepartureTime().substring(11,13)) + Integer.parseInt(flightEntity.getDepartureTime().substring(14,16));
+        int arrivalTimeMinutes = 60 * Integer.parseInt(flightEntity.getArrivalTime().substring(11,13)) + Integer.parseInt(flightEntity.getArrivalTime().substring(14,16));
         int flightTimeMinutes = arrivalTimeMinutes - departureTimeMinutes;
         return new FlightDto(
-                flightsAPIFlight.departure_airport(),
-                flightsAPIFlight.arrival_airport(),
-                flightsAPIFlight.flight_date(),
-                flightsAPIFlight.departure_time(),
-                flightsAPIFlight.arrival_time(),
+                flightEntity.getId(),
+                flightEntity.getDepartureAirport(),
+                flightEntity.getArrivalAirport(),
+                flightEntity.getDate(),
+                flightEntity.getDepartureTime(),
+                flightEntity.getArrivalTime(),
                 flightTimeMinutes,
-                flightsAPIFlight.airline()
+                flightEntity.getAirline()
         );
     }
 

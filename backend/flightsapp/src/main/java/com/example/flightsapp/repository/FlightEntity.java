@@ -14,7 +14,7 @@ public class FlightEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "flight_id")
-    private Integer id;
+    private Long id;
     @Column(name = "departure_airport")
     private String departureAirport;
     @Column(name = "arrival_airport")
@@ -30,4 +30,7 @@ public class FlightEntity {
 
     @OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BookingEntity> bookings;
+
+    @OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BookedSeatEntity> bookedSeats;
 }

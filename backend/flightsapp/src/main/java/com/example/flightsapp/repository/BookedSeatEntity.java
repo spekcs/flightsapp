@@ -19,4 +19,9 @@ public class BookedSeatEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     private BookingEntity booking;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_id")
+    private FlightEntity flight;
+
 }

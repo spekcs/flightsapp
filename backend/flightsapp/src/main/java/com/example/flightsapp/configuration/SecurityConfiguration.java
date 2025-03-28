@@ -15,7 +15,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorize ->
-                authorize.requestMatchers(HttpMethod.GET, "/api/flights").permitAll().anyRequest()
+                authorize.requestMatchers(HttpMethod.GET, "/api/flights").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/flights/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/seats/{flightId}").permitAll()
+
+                        .anyRequest()
                         .authenticated());
 
         return http.build();
