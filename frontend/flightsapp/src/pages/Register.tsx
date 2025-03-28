@@ -1,4 +1,7 @@
 import LoginForm from "@/components/ui/loginform";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import {
   Card,
@@ -8,8 +11,19 @@ import {
 } from "@/components/ui/card"
 
 function Register() {
-    function handleRegister(values: { username: string; password: string}) {
-        console.log(values)
+    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('')
+
+    async function handleRegister(values: { username: string; password: string}) {
+        axios.post("/api/user/register", values)
+        .then(response => {
+            localStorage.setItem("jwt", response.data.token);
+            navigate("/")
+        }).catch(error => {
+            console.error("Error fetching data", error);
+            setErrorMessage(error.response.data.message)
+        })
+
     }
 
     return(<div className="h-screen flex justify-center items-center align-middle">
@@ -19,6 +33,8 @@ function Register() {
             </CardHeader>
             <CardContent>
                 <LoginForm onSubmit={handleRegister} />
+                {errorMessage && (<p className="text-red-600 break-words whitespace-normal text-justify pt-6">{errorMessage}</p>
+            )}
             </CardContent>
         </Card>
         </div>
