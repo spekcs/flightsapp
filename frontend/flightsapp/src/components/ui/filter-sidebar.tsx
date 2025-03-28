@@ -7,6 +7,13 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar"
 import { Form, FormItem, FormField, FormLabel, FormControl, FormMessage, FormDescription } from "./form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "./input"
 import { Button } from "./button"
 import { z, } from "zod"
@@ -29,6 +36,7 @@ const formSchema = z.object({
       startMM: z.string().optional(),
       endHH: z.string().optional(),
       endMM: z.string().optional(),
+      orderBy: z.string()
 });
 
 interface FilterSidebarProps {
@@ -42,6 +50,11 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
             departureAirport: "",
             arrivalAirport: "",
             airline: "",
+            orderBy: "departureTime",
+            startHH: "",
+            startMM: "",
+            endHH: "",
+            endMM: ""
         }
     })
 
@@ -143,7 +156,7 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input maxLength={2} placeholder="HH" {...field} />
+                    <Input maxLength={2} placeholder="H" {...field} className="text-center"/>
                   </FormControl>
                 </FormItem>
               )}
@@ -155,7 +168,7 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input maxLength={2} placeholder="MM" {...field} />
+                    <Input maxLength={2} placeholder="M" {...field} className="text-center" />
                   </FormControl>
                 </FormItem>
               )}
@@ -167,7 +180,7 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input maxLength={2} placeholder="HH" {...field} />
+                    <Input maxLength={2} placeholder="H" {...field} className="text-center"/>
                   </FormControl>
                 </FormItem>
               )}
@@ -179,12 +192,33 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input maxLength={2} placeholder="MM" {...field} />
+                    <Input maxLength={2} placeholder="M" {...field} className="text-center"/>
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
+        <FormField
+          control={form.control}
+          name="orderBy"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Order by</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="departureTime">Departure time</SelectItem>
+                  <SelectItem value="flightTime">Flight time</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
             <Button type="submit">Apply</Button>
           </form>
         </Form>

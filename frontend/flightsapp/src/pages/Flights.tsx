@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/useAuth";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { FlightCard } from "@/components/ui/flight-card";
 
 function Flights() {
     const { isLoggedIn: initialIsLoggedIn } = useAuth();
@@ -58,10 +59,19 @@ function Flights() {
           </NavigationMenuList>
         </NavigationMenu>
         </div>
+      <div className="flex pt-2">
+        <div className="max-w-[18rem]">
         <SidebarProvider>
         <FilterSidebar onSubmit={handleApplyFilters} />
             <SidebarTrigger/>
-      </SidebarProvider>
+      </SidebarProvider></div>
+      <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <FlightCard></FlightCard>
+        <FlightCard></FlightCard>
+        <FlightCard></FlightCard>
+        <FlightCard></FlightCard>
+        <FlightCard></FlightCard>
+      </div></div>
       </>
       )
     }
