@@ -26,7 +26,7 @@ import java.util.*;
 
 
 @Service
-@Transactional(isolation = Isolation.SERIALIZABLE)
+@Transactional
 @RequiredArgsConstructor
 public class FlightsService {
     private final RestTemplate restTemplate;
@@ -55,8 +55,7 @@ public class FlightsService {
             throw new ExternalAPIException(String.format("External API error, code %s", response.error()));
         }
 
-        List<FlightEntity> existingFlights = new ArrayList<>();
-        List<FlightEntity> newFlights = new ArrayList<>();
+        List<FlightEntity> flightsList = new ArrayList<>();
         for (FlightsAPIFlight flight : response.data()) {
             String flightKey = String.format(
                     "%s|%s|%s|%s|%s",
@@ -70,17 +69,16 @@ public class FlightsService {
             Optional<FlightEntity> optionalFlightEntity = flightRepository.findByUniqueKey(flightKey);
 
             if (optionalFlightEntity.isPresent()) {
-                existingFlights.add(optionalFlightEntity.get());
+                flightsList.add(optionalFlightEntity.get());
             } else {
                 FlightEntity flightEntity = flightsMapper.toEntity(flight);
                 flightEntity.setUniqueKey(flightKey);
-                newFlights.add(flightEntity);
+                flightRepository.saveAndFlush(flightEntity);
             }
         }
-        flightRepository.saveAllAndFlush(newFlights);
-        existingFlights.addAll(newFlights);
 
-        return new PageResponse<>(flightsMapper.toDtoList(existingFlights), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
+
+        return new PageResponse<>(flightsMapper.toDtoList(flightsList), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
     }
 
     public ResponseEntity<FlightDto> getFlight(Long id) {

@@ -53,12 +53,14 @@ def filter_data(offset, limit, date, time_start, time_end, dept_airport, arr_air
                continue
          except:
             print("Invalid data.") #For a few flights, the arrival airport straight up doesn't exist???
+            continue
 
          try:
             if airline and str.lower(airline) not in str.lower(flight["airline"]):
                continue
          except:
             print("Invalid data.") # Nor airline apparently.
+            continue
 
          if time_start and time_end:
             start = datetime.strptime(time_start, "%H:%M").time()

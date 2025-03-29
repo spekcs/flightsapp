@@ -1,9 +1,6 @@
 import {
     Card,
-    CardContent,
-    CardDescription,
     CardFooter,
-    CardTitle,
   } from "@/components/ui/card"
   
 type FlightCardProps = {
@@ -20,24 +17,20 @@ type FlightCardProps = {
 }
 
 export function FlightCard( {flight}: FlightCardProps) {
-  const departureTime = new Date(flight.departureTime)
-  const departureHours = departureTime.getHours().toString().padStart(2, '0');
-  const departureMinutes = departureTime.getHours().toString().padStart(2, '0');
+  const departureTime = flight.departureTime.split('T')[1].substring(0, 5);
 
-  const arrivalTime = new Date(flight.arrivalTime)
-  const arrivalHours = arrivalTime.getHours().toString().padStart(2, '0');
-  const arrivalMinutes = arrivalTime.getHours().toString().padStart(2, '0');
+  const arrivalTime = flight.arrivalTime.split('T')[1].substring(0, 5);
 
     return (
         <Card className="hover:bg-accent">
       <div className="flex justify-start gap-1">
       <div className="min-w-48">
-  <p className="pl-6 font-bold">{`${departureHours}:${departureMinutes}`}</p>
+  <p className="pl-6 font-bold">{departureTime}</p>
   <p className="pl-6 text-sm text-muted-foreground ">Departure</p>
   <p className="pl-6 text-wrap whitespace-normal">{flight.departureAirport}</p>
     </div>
     <div>
-  <p className="pl-6 font-bold">{`${arrivalHours}:${arrivalMinutes}`}</p>
+  <p className="pl-6 font-bold">{arrivalTime}</p>
   <p className="pl-6 text-sm text-muted-foreground ">Arrival</p>
   <p className="pl-6">{flight.arrivalAirport}</p>
     </div>

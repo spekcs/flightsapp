@@ -6,6 +6,8 @@ Database saving duplicates
 
 Reason: Frontend sends two requests at once
 
+Date on the calander shows one day forward
+
 
 ## External API
 
