@@ -10,29 +10,29 @@ import com.example.flightsapp.mapping.FlightsMapper;
 import com.example.flightsapp.repository.FlightEntity;
 import com.example.flightsapp.repository.FlightRepository;
 import com.example.flightsapp.specification.FlightSearchCriteria;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.swing.text.html.Option;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.WeakHashMap;
+import java.util.*;
 
 
 @Service
-@Transactional
+@Transactional(isolation = Isolation.SERIALIZABLE)
 @RequiredArgsConstructor
 public class FlightsService {
     private final RestTemplate restTemplate;
     private final FlightsMapper flightsMapper;
     private final FlightRepository flightRepository;
+    private final Logger logger = LoggerFactory.getLogger(FlightsService.class);
 
     public PageResponse<FlightDto> getFlights(FlightSearchCriteria criteria) {
         String uri = "http://localhost:3000";
@@ -55,21 +55,32 @@ public class FlightsService {
             throw new ExternalAPIException(String.format("External API error, code %s", response.error()));
         }
 
-        List<FlightEntity> flightEntities = new ArrayList<>();
+        List<FlightEntity> existingFlights = new ArrayList<>();
+        List<FlightEntity> newFlights = new ArrayList<>();
         for (FlightsAPIFlight flight : response.data()) {
-            Optional<FlightEntity> flightEntityOptional = flightRepository.findByDepartureAirportAndDepartureTimeAndDate(
-                    flight.departure_airport(), flight.departure_time(),flight.flight_date());
-            if (flightEntityOptional.isPresent()) {
-                flightEntities.add(flightEntityOptional.get());
-                continue;
+            String flightKey = String.format(
+                    "%s|%s|%s|%s|%s",
+                    flight.departure_airport().trim().toLowerCase(),
+                    flight.departure_time(),
+                    flight.airline().trim().toLowerCase(),
+                    flight.arrival_time(),
+                    flight.arrival_airport().trim().toLowerCase()
+            );
+
+            Optional<FlightEntity> optionalFlightEntity = flightRepository.findByUniqueKey(flightKey);
+
+            if (optionalFlightEntity.isPresent()) {
+                existingFlights.add(optionalFlightEntity.get());
+            } else {
+                FlightEntity flightEntity = flightsMapper.toEntity(flight);
+                flightEntity.setUniqueKey(flightKey);
+                newFlights.add(flightEntity);
             }
-
-            FlightEntity flightEntity = flightsMapper.toEntity(flight);
-            flightRepository.save(flightEntity); //Added ID
-            flightEntities.add(flightEntity);
         }
+        flightRepository.saveAllAndFlush(newFlights);
+        existingFlights.addAll(newFlights);
 
-        return new PageResponse<>(flightsMapper.toDtoList(flightEntities), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
+        return new PageResponse<>(flightsMapper.toDtoList(existingFlights), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
     }
 
     public ResponseEntity<FlightDto> getFlight(Long id) {

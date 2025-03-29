@@ -5,16 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "flights")
+@Table(name = "flights", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "departure_airport", "departure_time", "airline", "arrival_time", "arrival_airport"
+        })
+})
 public class FlightEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "flight_id")
     private Long id;
+    @Column(name = "unique_key", nullable = false)
+    private String uniqueKey;
     @Column(name = "departure_airport")
     private String departureAirport;
     @Column(name = "arrival_airport")

@@ -1,5 +1,10 @@
 # flightsapp
 
+### Problems:
+
+Database saving duplicates
+
+Reason: Frontend sends two requests at once
 
 
 ## External API

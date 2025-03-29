@@ -7,8 +7,20 @@ import {
     CardTitle,
   } from "@/components/ui/card"
   
+type FlightCardProps = {
+    flight: {
+        flightId: number,
+        departureAirport: string,
+        arrivalAirport: string,
+        date: string,
+        departureTime: string,
+        arrivalTime: string,
+        flightTimeMinutes: number,
+        airline: string
+    }
+}
 
-export function FlightCard() {
+export function FlightCard( {flight}: FlightCardProps) {
     return (
         <Card className="hover:bg-accent">
   <CardHeader>
@@ -16,7 +28,7 @@ export function FlightCard() {
     <CardDescription>Card Description</CardDescription>
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
+    <p>{flight.departureAirport}</p>
   </CardContent>
   <CardFooter>
     <p>Card Footer</p>

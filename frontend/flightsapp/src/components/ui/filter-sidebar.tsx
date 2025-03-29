@@ -3,10 +3,9 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { Form, FormItem, FormField, FormLabel, FormControl, FormMessage, FormDescription } from "./form"
+import { Form, FormItem, FormField, FormLabel, FormControl, FormMessage, } from "./form"
 import {
   Select,
   SelectContent,
@@ -31,7 +30,7 @@ const formSchema = z.object({
     departureAirport: z.string().optional(),
     arrivalAirport: z.string().optional(),
     airline: z.string().optional(),
-    date: z.date().optional(),
+    departureDate: z.date().optional(),
       startHH: z.string().optional(),
       startMM: z.string().optional(),
       endHH: z.string().optional(),
@@ -109,7 +108,7 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
 
         <FormField
           control={form.control}
-          name="date"
+          name="departureDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date</FormLabel>

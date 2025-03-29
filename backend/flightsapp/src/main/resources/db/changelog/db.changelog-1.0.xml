@@ -76,4 +76,11 @@
             </insert>
         </changeSet>
 
+    <changeSet id="29-03-2024" author="S">
+        <addColumn tableName="flights">
+            <column name="unique_key" type="text">
+                <constraints unique="true"/> </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

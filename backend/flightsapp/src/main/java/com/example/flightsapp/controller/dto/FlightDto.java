@@ -1,6 +1,8 @@
 package com.example.flightsapp.controller.dto;
 
 
+import java.util.UUID;
+
 public record FlightDto (
         Long flightId,
     String departureAirport,
