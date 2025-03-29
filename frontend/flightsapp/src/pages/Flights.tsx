@@ -50,7 +50,7 @@ function Flights() {
         console.log("Flights updated:", flights)
     }, [flights])
 
-    const fetchFlights = async (filters?: Record<string, number | string> ) => {
+    const fetchFlights = async (filters?: Record<string, any> ) => {
         setLoading(true);
 
         await axios.get("/api/flights", {
@@ -71,7 +71,7 @@ function Flights() {
     };
   
     const handleApplyFilters = (values: { orderBy: string; departureAirport?: string | undefined; arrivalAirport?: string | undefined; airline?: string | undefined; departureDate?: Date | undefined; startHH?: string | undefined; startMM?: string | undefined; endHH?: string | undefined; endMM?: string | undefined; } | undefined) => {
-        const params: Record<string, number | string> = {
+        const params: Record<string, any> = {
             pageOffset,
             limit: pageLimit
         }

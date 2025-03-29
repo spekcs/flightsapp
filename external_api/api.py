@@ -43,6 +43,8 @@ def filter_data(offset, limit, date, time_start, time_end, dept_airport, arr_air
    }
 
    for flight in data["data"]:
+         if flight["flight_date"] == None or flight["departure_airport"] == None or flight["departure_time"] == None or flight["arrival_airport"] == None or flight["arrival_time"] == None or flight["airline"] == None:
+            continue
          if date and date != flight["flight_date"]:
             continue
          if dept_airport and str.lower(dept_airport) not in str.lower(flight["departure_airport"]):
