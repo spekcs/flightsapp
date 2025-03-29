@@ -33,7 +33,7 @@ function Flights() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [pageOffset] = useState(0);
-    const [pageLimit] = useState(10);
+    const [pageLimit] = useState(50);
   
     const handleSignout = () => {
       localStorage.removeItem("jwt");
@@ -50,7 +50,7 @@ function Flights() {
         console.log("Flights updated:", flights)
     }, [flights])
 
-    const fetchFlights = async (filters?: Record<string, any> ) => {
+    const fetchFlights = async (filters?: Record<string, number | string> ) => {
         setLoading(true);
 
         await axios.get("/api/flights", {
@@ -71,7 +71,7 @@ function Flights() {
     };
   
     const handleApplyFilters = (values: { orderBy: string; departureAirport?: string | undefined; arrivalAirport?: string | undefined; airline?: string | undefined; departureDate?: Date | undefined; startHH?: string | undefined; startMM?: string | undefined; endHH?: string | undefined; endMM?: string | undefined; } | undefined) => {
-        const params: Record<string, any> = {
+        const params: Record<string, number | string> = {
             pageOffset,
             limit: pageLimit
         }
@@ -130,7 +130,7 @@ function Flights() {
         <FilterSidebar onSubmit={handleApplyFilters} />
             <SidebarTrigger className="sticky top-2"/>
       </SidebarProvider></div>
-      <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {loading && <p>Loading flights...</p>}
         {error && <p className="text-red-600">{error}</p>}
         {!loading && !error && flights.map((flight) => (
