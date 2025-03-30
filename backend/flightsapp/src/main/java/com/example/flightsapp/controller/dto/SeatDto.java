@@ -4,9 +4,7 @@ package com.example.flightsapp.controller.dto;
 import java.util.List;
 
 public record SeatDto(
-        Long id,
-        String seatCode,
-        Type type
+        String seatCode
 ){
     public enum Type {
         BUSINESS,

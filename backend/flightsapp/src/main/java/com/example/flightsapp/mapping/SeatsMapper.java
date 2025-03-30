@@ -12,6 +12,6 @@ public interface SeatsMapper {
     List<SeatDto> toDtoList(List<BookedSeatEntity> entityList);
 
     default SeatDto toDto(BookedSeatEntity entity) {
-        return new SeatDto(entity.getBookedSeatId(), entity.getSeatCode(), SeatDto.Type.getType(entity.getSeatCode()));
+        return new SeatDto(entity.getSeatCode());
     }
 }
