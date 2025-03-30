@@ -1,6 +1,9 @@
+import { useParams } from "react-router-dom";
+
 function Seats() {
+    const { id } = useParams();
     return (
-        <p>seats</p>
+        <p>seats {id}</p>
     );
 }
 

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { FlightCard } from "@/components/ui/flight-card";
 import  axios from "axios";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 type Flight = {
     flightId: number,
@@ -32,8 +33,10 @@ function Flights() {
     const [flights, setFlights] = useState<Flight[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [pageOffset] = useState(0);
+    const [pageOffset, setPageOffset] = useState(0);
     const [pageLimit] = useState(50);
+    const [filterParams, setFilterParams] = useState({});
+    const [totalFlights, setTotalFlights] = useState(0);
   
     const handleSignout = () => {
       localStorage.removeItem("jwt");
@@ -57,6 +60,7 @@ function Flights() {
             params: filters || {},
         }).then(response => {
             setFlights(response.data.content);
+            setTotalFlights(response.data.total)
             setError(null);
         console.log(response.data.content)
         }).catch(err => {
@@ -94,7 +98,20 @@ function Flights() {
             params.arrivalAirport = values.arrivalAirport;
         }
         
+        setFilterParams(params);
       fetchFlights(params);
+    }
+
+    useEffect(() => {
+        fetchFlights({... filterParams, pageOffset});
+    }, [pageOffset]);
+
+    const handlePreviousPage = () => {
+        setPageOffset(pageOffset - 1);
+    }
+
+    const handleNextPage = () => {
+        setPageOffset(pageOffset + 1);
     }
 
     return (<>
@@ -130,13 +147,35 @@ function Flights() {
         <FilterSidebar onSubmit={handleApplyFilters} />
             <SidebarTrigger className="sticky top-2"/>
       </SidebarProvider></div>
-      <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 pr-6">
         {loading && <p>Loading flights...</p>}
         {error && <p className="text-red-600">{error}</p>}
         {!loading && !error && flights.map((flight) => (
             <FlightCard key={flight.flightId} flight={flight}/>
         ))}
       </div></div>
+      <div className="fixed bottom-0 w-full bg-white">
+        <Pagination>
+            <PaginationContent>
+                {pageOffset > 0 && (<><PaginationItem>
+                    <PaginationPrevious onClick={handlePreviousPage}/>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationEllipsis/>
+                </PaginationItem></>)}
+                <PaginationItem>
+                    <p>{pageOffset + 1}</p>
+                </PaginationItem>
+                { ((pageOffset + 1) * pageLimit) < totalFlights && (<>
+                <PaginationItem>
+                    <PaginationEllipsis/>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationNext onClick={handleNextPage}/>
+                </PaginationItem></>)}
+            </PaginationContent>
+        </Pagination>
+      </div>
       </>
       )
     }

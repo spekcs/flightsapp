@@ -2,6 +2,7 @@ import {
     Card,
     CardFooter,
   } from "@/components/ui/card"
+import { Link } from "react-router-dom";
   
 type FlightCardProps = {
     flight: {
@@ -22,8 +23,9 @@ export function FlightCard( {flight}: FlightCardProps) {
   const arrivalTime = flight.arrivalTime.split('T')[1].substring(0, 5);
 
     return (
-        <Card className="hover:bg-accent">
-      <div className="flex justify-start gap-1">
+        <Link to={`/seats/${flight.flightId}`}>
+        <Card className="hover:bg-accent max-h-54">
+      <div className="flex justify-start gap-1 pr-2">
       <div className="min-w-48">
   <p className="pl-6 font-bold">{departureTime}</p>
   <p className="pl-6 text-sm text-muted-foreground ">Departure</p>
@@ -42,7 +44,7 @@ export function FlightCard( {flight}: FlightCardProps) {
     <p className="font-bold">{flight.flightTimeMinutes} minutes</p>
         </div>
   </CardFooter>
-</Card>
+</Card></Link>
 
     );
 };
