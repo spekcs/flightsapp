@@ -15,14 +15,10 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-enum RecommendByEnum {
-"TOGETHER", "LEGROOM", "WINDOWSEAT"
-} 
-
+import { Button } from "./button"
 
 
 interface SeatsSidebarProps {
-
     flight: {
         flightId: number,
         departureAirport: string,
@@ -37,11 +33,13 @@ interface SeatsSidebarProps {
     count: number,
     setCount: any,
     bookedSeatCount: number,
-    setRecommendBy: any
+    setRecommendBy: any,
+    selectedSeats: string[],
+    onSubmit: any
 }
 
 
-export function SeatsSidebar({ flight, error, count, setCount, bookedSeatCount, setRecommendBy }: SeatsSidebarProps) {
+export function SeatsSidebar({ flight, error, count, setCount, bookedSeatCount, setRecommendBy, onSubmit, selectedSeats }: SeatsSidebarProps) {
 const departureTime = flight?.departureTime.split('T')[1].substring(0, 5);
 const arrivalTime = flight?.arrivalTime.split('T')[1].substring(0, 5);
 
@@ -89,12 +87,17 @@ return (
                     <SelectItem value="TOGETHER">Seats together</SelectItem>
                     <SelectItem value="WINDOW">Window seats</SelectItem>
                     <SelectItem value="LEGROOM">More legroom</SelectItem>
+                    <SelectItem value="EXIT">Near exit</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
     </SidebarGroupContent>
-    <SidebarContent>
+    <SidebarContent className="flex justify-center">
         <p className="font-bold text-2xl">Your seats:</p>
+        <p className="font-bold text-xl">
+        {selectedSeats?.map((seat) => (`${seat} `))}
+        </p>
+        <Button onClick={onSubmit} className="max-w-18">Book</Button>
     </SidebarContent>
     </SidebarGroup>
     </SidebarContent>

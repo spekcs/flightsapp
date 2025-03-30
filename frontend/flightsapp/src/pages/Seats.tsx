@@ -82,7 +82,9 @@ function Seats() {
     const [error, setError] = useState('');
     const [bookedSeats, setBookedSeats] = useState<Seat[]>([]);
     const [count, setCount] = useState(1);
-    const [recommendBy, setRecommendBy] = useState<"TOGETHER" | "LEGROOM" | "WINDOW">("TOGETHER");
+    const [recommendBy, setRecommendBy] = useState<"TOGETHER" | "LEGROOM" | "WINDOW" | "EXIT">("TOGETHER");
+    const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+    const [seatPointer, setSeatPointer] = useState(0);
 
 
     const bookedSeatSet = new Set(bookedSeats?.map((seat) => seat.seatCode));
@@ -140,12 +142,29 @@ function Seats() {
     }
 
     const handleSeatClick = (index: string) => {
+        if (selectedSeats.includes(index)) {
+            return;
+        }
         console.log(index)
+        if (selectedSeats.length < count) {
+            setSelectedSeats([index, ...selectedSeats])
+        } else {
+            setSelectedSeats(prev => {
+                const newSeats = [...prev];
+                newSeats[seatPointer] = index;
+                setSeatPointer((seatPointer + 1) % count)
+                return newSeats;
+            });
+        }
     }
 
     useEffect(() => {
         fetchRecommendation();
     }, [count, recommendBy])
+
+    const handleBook = () => {
+
+    }
 
     return (<>
         <div className="flex justify-end pt-2 pr-2 sticky top-0 bg-background z-15">
@@ -169,7 +188,7 @@ function Seats() {
       <div className="flex">
         <div className="max-w-[18rem] z-20">
         <SidebarProvider>
-        <SeatsSidebar flight={flight} error={error} count={count} setCount={setCount} bookedSeatCount={bookedSeatSet.size} setRecommendBy={setRecommendBy}/>
+        <SeatsSidebar flight={flight} error={error} count={count} onSubmit={handleBook} selectedSeats={selectedSeats} setCount={setCount} bookedSeatCount={bookedSeatSet.size} setRecommendBy={setRecommendBy}/>
             <SidebarTrigger className="sticky top-2"/>
       </SidebarProvider>
       </div>
