@@ -109,6 +109,7 @@ public class FlightsService {
             BookedSeatEntity bookedSeatEntity = new BookedSeatEntity();
             bookedSeatEntity.setSeatCode(seatCode);
             bookedSeatEntity.setBooking(bookingEntity);
+            bookedSeatEntity.setFlight(flightEntity.get());
             bookedSeatRepository.save(bookedSeatEntity);
         }
 

@@ -2,23 +2,27 @@ package com.example.flightsapp.service;
 
 import com.example.flightsapp.controller.dto.SeatDto;
 import com.example.flightsapp.controller.dto.SeatRecommendationDto;
+import com.example.flightsapp.exception.ApplicationException;
 import com.example.flightsapp.exception.NotFoundException;
 import com.example.flightsapp.mapping.SeatsMapper;
 import com.example.flightsapp.repository.*;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class SeatsService {
+    private static final Integer RECOMMENDATION_SCORE = 1000;
 
     private static final Double RANDOM_BOOKED_WEIGHT = 0.4;
 
@@ -35,6 +39,8 @@ public class SeatsService {
             "28A", "28B", "28C", "28D", "29A", "29B", "29C", "29D", "30A", "30B", "30C", "30D",
             "31A", "31B", "31C", "31D", "32A", "32B", "32C", "32D", "33A", "33B", "33C", "33D"
     );
+
+    private static final List<Integer> legRoomRows = List.of(1, 13, 14);
     private final BookedSeatRepository bookedSeatRepository;
     private final FlightRepository flightRepository;
     private final UserRepository userRepository;
@@ -87,6 +93,96 @@ public class SeatsService {
 
 
     public ResponseEntity<List<SeatDto>> getRecommendation(Long flightId, SeatRecommendationDto seatRecommendationDto) {
-        return ResponseEntity.internalServerError().build();
+        List<String> availableSeats = new ArrayList<>(seatCodes);
+        for (BookedSeatEntity seat : bookedSeatRepository.findByFlightId(flightId)) {
+            availableSeats.remove(seat.getSeatCode());
+        }
+
+        List<SeatWithRecommendation> recommendations = new ArrayList<>();
+        for (String seatCode : availableSeats) {
+            recommendations.add(new SeatWithRecommendation(seatCode, 0));
+        }
+
+        Long count = seatRecommendationDto.count();
+        if (count > availableSeats.size()) {
+            throw new ApplicationException("Not enough available seats for recommendation.");
+        }
+
+        switch (seatRecommendationDto.recommendBy()) {
+            case TOGETHER -> {
+                recommendTogether(recommendations);
+            }
+            case WINDOW -> {
+                recommendWindow(recommendations);
+            }
+            case EXIT -> {
+                recommendExit(recommendations);
+            }
+            case LEGROOM -> {
+                recommendLegroom(recommendations);
+            }
+        }
+
+        List<SeatWithRecommendation> bestSeats = recommendations.stream().sorted(Comparator.reverseOrder()).limit(count).toList();
+        List<SeatDto> seatDtos = new ArrayList<>();
+        for (SeatWithRecommendation seat : bestSeats) {
+            seatDtos.add(new SeatDto(seat.getSeatCode()));
+        }
+        return ResponseEntity.ok(seatDtos);
+    }
+
+    private static final Map<String, Integer> rows = Map.of("A", 1, "B", 2, "C", 3, "D", 4);
+
+    private void recommendTogether(List<SeatWithRecommendation> seats) {
+        for (SeatWithRecommendation seat : seats) {
+            String[] codeDecomp = seat.getSeatCode().split("(?=[A-Z])");
+            int row = Integer.parseInt(codeDecomp[0]);
+            int seatNumber = rows.get(codeDecomp[1]);
+            seat.setScore(row * 10 + seatNumber);
+        }
+    }
+
+    private void recommendExit(List<SeatWithRecommendation> seats) {
+        for (SeatWithRecommendation seat : seats) {
+            int row = Integer.parseInt(seat.getSeatCode().split("(?=[A-Z])")[0]);
+            Integer score = 70 - Math.min(row, Math.min(Math.abs(13 - row), Math.min(Math.abs(14 - row), Math.abs(33 - row))));
+            if (seat.getSeatCode().startsWith("B") || seat.getSeatCode().startsWith("C")) {
+                score++;
+            }
+            seat.setScore(score);
+        }
+    }
+
+    private void recommendWindow(List<SeatWithRecommendation> seats) {
+        for (SeatWithRecommendation seat : seats) {
+            if (seat.seatCode.startsWith("A") || seat.seatCode.startsWith("D")) {
+                seat.setScore(seat.getScore() + RECOMMENDATION_SCORE);
+            }
+        }
+    }
+
+
+    private void recommendLegroom(List<SeatWithRecommendation> seats) {
+        for (SeatWithRecommendation seat : seats) {
+            int row = Integer.parseInt(seat.getSeatCode().split("(?=[A-Z])")[0]);
+            if (legRoomRows.contains(row)) {
+                seat.setScore(seat.getScore() + RECOMMENDATION_SCORE);
+            }
+            if (seat.seatCode.startsWith("A") || seat.seatCode.startsWith("D")) {
+                seat.setScore(seat.getScore() + 1);
+            }
+        }
+    }
+
+    @AllArgsConstructor
+    @Getter @Setter
+    private static class SeatWithRecommendation implements Comparable<SeatWithRecommendation> {
+        private String seatCode;
+        private Integer score;
+
+        @Override
+        public int compareTo(SeatWithRecommendation seatWithRecommendation) {
+            return this.score.compareTo(seatWithRecommendation.score);
+        }
     }
 }

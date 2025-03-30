@@ -127,6 +127,18 @@ function Seats() {
 
     const fetchRecommendation = async () => {
         console.log("fetching")
+        axios.post(`/api/seats/recommend/${id}`, { count: count, recommendBy: recommendBy},
+            {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        })
+        .then((response) => {
+            setSelectedSeats(response.data?.map((seat: Seat) => seat.seatCode))
+        }
+        ).catch((error) =>
+            console.error(error.message)
+        );
     }
 
     useEffect(() => {
@@ -163,10 +175,11 @@ function Seats() {
     }, [count, recommendBy])
 
     const handleBook = () => {
-        axios.post(`/api/flights/book/${id}`, {
+        axios.post(`/api/flights/book/${id}`, { seatCodes: selectedSeats },
+            {
             headers: {
                 Authorization: `Bearer ${token}`
-            }, body: {seatCodes: selectedSeats}
+            },
         })
         .then((_) => {
             navigate("/")
