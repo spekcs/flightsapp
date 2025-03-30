@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 authorize.requestMatchers(HttpMethod.GET, "/api/flights").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/api/flights/book/{id}").permitAll()
                         .anyRequest()
                         .authenticated()).addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

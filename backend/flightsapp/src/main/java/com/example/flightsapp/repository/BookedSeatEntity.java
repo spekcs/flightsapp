@@ -7,7 +7,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "booked_seats")
+@Table(name = "booked_seats", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"seat_code", "booking_id"})
+})
 public class BookedSeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

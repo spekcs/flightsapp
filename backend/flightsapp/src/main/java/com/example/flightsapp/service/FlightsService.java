@@ -1,21 +1,17 @@
 package com.example.flightsapp.service;
 
-import com.example.flightsapp.controller.dto.FlightDto;
-import com.example.flightsapp.controller.dto.FlightsAPIFlight;
-import com.example.flightsapp.controller.dto.FlightsAPIResponseObject;
-import com.example.flightsapp.controller.dto.PageResponse;
+import com.example.flightsapp.controller.dto.*;
 import com.example.flightsapp.exception.ExternalAPIException;
 import com.example.flightsapp.exception.NotFoundException;
 import com.example.flightsapp.mapping.FlightsMapper;
-import com.example.flightsapp.repository.FlightEntity;
-import com.example.flightsapp.repository.FlightRepository;
+import com.example.flightsapp.repository.*;
 import com.example.flightsapp.specification.FlightSearchCriteria;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -33,6 +29,11 @@ public class FlightsService {
     private final FlightsMapper flightsMapper;
     private final FlightRepository flightRepository;
     private final Logger logger = LoggerFactory.getLogger(FlightsService.class);
+    private final BookingRepository bookingRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final UserIdService userIdService;
+    private final BookedSeatRepository bookedSeatRepository;
 
     public PageResponse<FlightDto> getFlights(FlightSearchCriteria criteria) {
         String uri = "http://localhost:3000";
@@ -87,5 +88,31 @@ public class FlightsService {
             throw new NotFoundException("Flight not found.");
         }
         return ResponseEntity.ok(flightsMapper.toDto(flightEntity.get()));
+    }
+
+    public ResponseEntity<FlightDto> bookFlight(Long id, BookingDto bookingDto, HttpServletRequest request) {
+        Optional<FlightEntity> flightEntity = flightRepository.findById(id);
+        if (flightEntity.isEmpty()) {
+            throw new NotFoundException("Flight not found.");
+        }
+        Long userId = userIdService.extractUserId(request);
+        Optional<UserEntity> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new NotFoundException("User not found.");
+        }
+
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity.setFlight(flightEntity.get());
+        bookingEntity.setUser(user.get());
+
+        for (String seatCode : bookingDto.seatCodes()) {
+            BookedSeatEntity bookedSeatEntity = new BookedSeatEntity();
+            bookedSeatEntity.setSeatCode(seatCode);
+            bookedSeatEntity.setBooking(bookingEntity);
+            bookedSeatRepository.save(bookedSeatEntity);
+        }
+
+        bookingRepository.save(bookingEntity);
+        return ResponseEntity.accepted().build();
     }
 }

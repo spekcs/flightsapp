@@ -163,7 +163,17 @@ function Seats() {
     }, [count, recommendBy])
 
     const handleBook = () => {
-
+        axios.post(`/api/flights/book/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }, body: {seatCodes: selectedSeats}
+        })
+        .then((_) => {
+            navigate("/")
+        }
+        ).catch((error) =>
+            console.error(error.message)
+        );
     }
 
     return (<>

@@ -1,6 +1,7 @@
 package com.example.flightsapp.service;
 
 import com.example.flightsapp.controller.dto.SeatDto;
+import com.example.flightsapp.controller.dto.SeatRecommendationDto;
 import com.example.flightsapp.exception.NotFoundException;
 import com.example.flightsapp.mapping.SeatsMapper;
 import com.example.flightsapp.repository.*;
@@ -82,5 +83,10 @@ public class SeatsService {
 
     private boolean getWeightedBool() {
         return ThreadLocalRandom.current().nextDouble() < SeatsService.RANDOM_BOOKED_WEIGHT;
+    }
+
+
+    public ResponseEntity<List<SeatDto>> getRecommendation(Long flightId, SeatRecommendationDto seatRecommendationDto) {
+        return ResponseEntity.internalServerError().build();
     }
 }
