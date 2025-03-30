@@ -1,6 +1,6 @@
 import LoginForm from "@/components/ui/loginform";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 import {
@@ -14,6 +14,9 @@ import {
 
 function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from || "/";
 
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -21,7 +24,7 @@ function Login() {
         axios.post("/api/user/login", values)
         .then(response => {
             localStorage.setItem("jwt", response.data.token);
-            navigate("/")
+            navigate(from)
         }).catch(error => {
             console.error("Error fetching data", error);
             setErrorMessage(error.response.data.message || error.message)
