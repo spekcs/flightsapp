@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,10 @@ public class FlightsService {
     private final UserIdService userIdService;
     private final BookedSeatRepository bookedSeatRepository;
 
+    @Value("${external.api.url}")
+    private String uri;
+
     public PageResponse<FlightDto> getFlights(FlightSearchCriteria criteria) {
-        String uri = "http://externalapi:3000";
         UriComponents builder = UriComponentsBuilder.fromUri(URI.create(uri))
                 .queryParamIfPresent("page_offset", Optional.ofNullable(criteria.pageOffset()))
                 .queryParamIfPresent("limit", Optional.ofNullable(criteria.limit()))

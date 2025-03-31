@@ -1,22 +1,21 @@
-flightsapp
+# flightsapp
 
-### Problems:
+Demo project
 
-Database saving duplicates
+## Running the project
 
-Reason: Frontend sends two requests at once
+1. Build the backend jar file: `gradle bootJar`
+2. `docker compose up --build` in the root of the project
 
-Date on the calander shows one day forward
+To run locally or only part of the project:
+- Frontend: change the server proxy target from `http://backend:8080` to `http://localhost:8080` in `vite.config.ts` and `npm run dev`
+- Backend: can run locally, it has a different `application.properties` for docker, **needs a running postgres database on localhost:5432**
+- ExternalAPI: `python3 api.py`
 
-Since data is pulled from the external API which doesn't have sorting, sorting only works per page.
-
-If recommendations don't make sense refresh the page, the phantom bookings may not have been all generated
-
-It suddenly gave me a total of 1940 flights instead of 485, this is an externalAPI bug I don't have time to fix
-
-Bug: the pagination menu sometimes disappears in built version when filters are applied
-
+PS: I usually wouldn't commit docker usernames and passwords to git, but for ease of use, I included them
 ## External API
+
+I took 'load data from an external API' to mean: query the data from an API in production rather than get the data and save it in a database ahead of time.
 
 Since I couldn't find any free flight apis with unlimited requests, I took some data from [AviationStack API](https://aviationstack.com/documentation) and created my own fake API :3
 
@@ -43,6 +42,23 @@ Since I couldn't find any free flight apis with unlimited requests, I took some 
 - `dept_airport`
 - `arr_airport`
 - `airline` last 3 match like in SQL `%[string]%`, case insensitive
+
+
+## Problems I encountered and solved:
+
+#### Database saving duplicates
+
+This was because in `dev` mode, react sends two HTTP requests, which created a race condition in the database. This was partially solved with unique constraints and locking down the database, but similar problems are still present, eg. the phantom booker may not book seats fast enough, so frontend thinks some seats are avaliable when they are not. 
+
+#### Date on the calander shows one day forward
+
+Timezones. Fixed by parsing each part of the date separately.
+
+#### External API bugs
+
+Not really a bug, but since data is pulled from the external API which doesn't have sorting, sorting only works per page.
+
+Sometimes the external API would load in much more data than there was to load, this was a similar issue as with the database storing duplicates - fixed it by loading all data before starting the web server
 
 ## Things to improve
 
