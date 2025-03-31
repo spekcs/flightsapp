@@ -130,19 +130,37 @@ public class SeatsService {
         return ResponseEntity.ok(seatDtos);
     }
 
-    private static final Map<String, Integer> rows = Map.of("A", 1, "B", 2, "C", 3, "D", 4);
-
     private void recommendTogether(List<SeatWithRecommendation> seats) {
-        HashMap<String, Integer> rowsMap = new HashMap<>();
+        HashMap<String, Set<String>> rowsMap = new HashMap<>();
 
         for (SeatWithRecommendation seat : seats) {
             String row = seat.getSeatCode().split("(?=[A-Z])")[0];
-            rowsMap.put(row, rowsMap.getOrDefault(row, 0) + 1);
+            if (!rowsMap.containsKey(row)) {
+                rowsMap.put(row, new HashSet<>());
+            }
+            rowsMap.get(row).add(seat.getSeatCode().split("(?=[A-Z])")[1]);
         }
 
         for (SeatWithRecommendation seat : seats) {
             String row = seat.getSeatCode().split("(?=[A-Z])")[0];
-            seat.setScore(rowsMap.get(row));
+            Set<String> rowSeats = rowsMap.get(row);
+            if (rowSeats.size() == 4) {
+                seat.setScore(10);
+            } else if (rowSeats.size() == 3) {
+                if (rowSeats.equals(Set.of("A", "B", "C")) || rowSeats.equals(Set.of("B", "C", "D"))) {
+                    seat.setScore(9);
+                } else {
+                    seat.setScore(8);
+                }
+            } else if (rowSeats.size() == 2) {
+                if (rowSeats.equals(Set.of("A", "B")) || rowSeats.equals(Set.of("C", "D"))) {
+                    seat.setScore(7);
+                } else if (rowSeats.equals(Set.of("A", "D"))) {
+                    seat.setScore(6);
+                } else {
+                    seat.setScore(5);
+                }
+            }
         }
     }
 

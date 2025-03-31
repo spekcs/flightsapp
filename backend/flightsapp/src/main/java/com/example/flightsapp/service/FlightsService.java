@@ -50,8 +50,12 @@ public class FlightsService {
                 .queryParamIfPresent("arr_airport", Optional.ofNullable(criteria.arrivalAirport()))
                 .queryParamIfPresent("airline", Optional.ofNullable(criteria.airline()))
                 .build();
-
-        FlightsAPIResponseObject response = restTemplate.getForObject(builder.toUriString(), FlightsAPIResponseObject.class);
+        FlightsAPIResponseObject response;
+        try {
+            response = restTemplate.getForObject(builder.toUriString(), FlightsAPIResponseObject.class);
+        } catch (Exception e) {
+            throw new ExternalAPIException(e.getMessage());
+        }
         if (response == null) {
             throw new ExternalAPIException("Flights API didn't return data.");
         }

@@ -77,8 +77,8 @@ Sometimes the external API would load in much more data than there was to load, 
 - frontend is hosted with vite, which is probably not ideal for production
 - the flightplan svg should crop rather than scale down, but I couldn't get it to work
 - frontend should do more validation with zod
-- the algorithm for recommending seats 'together' can be improved
 - profile page is currently for showing that bookings do indeed happen, it's not very pretty
 - add logging
 - add tests with sufficient coverage
 - handle database errors properly (currently it's returning 403 a lot of the time, which is not the correct HTTP Code)
+- Logged in validation in the frontend, currently it's only checking whether a jwt is stored, which shows the /seats view rather than /login as it should. The backend obviously checks and sends back 403
