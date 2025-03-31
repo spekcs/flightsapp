@@ -1,4 +1,4 @@
-# flightsapp
+flightsapp
 
 ### Problems:
 
@@ -14,6 +14,7 @@ If recommendations don't make sense refresh the page, the phantom bookings may n
 
 It suddenly gave me a total of 1940 flights instead of 485, this is an externalAPI bug I don't have time to fix
 
+Bug: the pagination menu sometimes disappears in built version when filters are applied
 
 ## External API
 
