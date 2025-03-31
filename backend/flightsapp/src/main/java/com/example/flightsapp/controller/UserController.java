@@ -1,6 +1,5 @@
 package com.example.flightsapp.controller;
 
-import com.example.flightsapp.controller.dto.BookingDto;
 import com.example.flightsapp.controller.dto.LoginResponseDto;
 import com.example.flightsapp.controller.dto.UserAuthDto;
 import com.example.flightsapp.controller.dto.UserBookingDto;

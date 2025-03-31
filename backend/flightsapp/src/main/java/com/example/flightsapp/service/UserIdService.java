@@ -2,7 +2,6 @@ package com.example.flightsapp.service;
 
 import com.example.flightsapp.repository.UserEntity;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

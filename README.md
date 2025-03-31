@@ -13,6 +13,18 @@ To run locally or only part of the project:
 - ExternalAPI: `python3 api.py`
 
 PS: I usually wouldn't commit docker usernames and passwords to git, but for ease of use, I included them
+
+## Frontend
+
+Frontend is built with React + Ts, using a lot of ![shadcn](https://ui.shadcn.com/) components. Airplane seat image is from ![here](https://www.flyporter.com/en-ca/travel-information/inflight/seat-maps)
+
+Shadcn componenets are under `/src/components/ui`, my components are in `/src/components/custom`, pages ate in `src/pages`.
+
+## Backend
+
+Using mapstruct for mapping and json web tokens for validation.
+
+
 ## External API
 
 I took 'load data from an external API' to mean: query the data from an API in production rather than get the data and save it in a database ahead of time.
@@ -62,4 +74,11 @@ Sometimes the external API would load in much more data than there was to load, 
 
 ## Things to improve
 
-- 
+- frontend is hosted with vite, which is probably not ideal for production
+- the flightplan svg should crop rather than scale down, but I couldn't get it to work
+- frontend should do more validation with zod
+- the algorithm for recommending seats 'together' can be improved
+- profile page is currently for showing that bookings do indeed happen, it's not very pretty
+- add logging
+- add tests with sufficient coverage
+- handle database errors properly (currently it's returning 403 a lot of the time, which is not the correct HTTP Code)

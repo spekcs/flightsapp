@@ -163,6 +163,7 @@ function Flights() {
       <div className="grid gap-4 flex-wrap grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 pr-6">
         {loading && <p>Loading flights...</p>}
         {error && <p className="text-red-600">{error}</p>}
+        {flights.length == 0 && <p>No flights found</p>}
         {!loading && !error && flights.map((flight) => (
             <FlightCard key={flight.flightId} flight={flight}/>
         ))}
