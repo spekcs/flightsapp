@@ -11,7 +11,7 @@ import {
     NavigationMenuList,
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
-import { SeatsSidebar } from "@/components/ui/seats-sidebar";
+import { SeatsSidebar } from "@/components/custom/seats-sidebar";
 import { Flight } from "./Flights";
 
 const firstClassSeatsLeft = [

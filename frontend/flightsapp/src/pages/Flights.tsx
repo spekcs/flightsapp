@@ -5,14 +5,14 @@ import {
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
 
-import { FilterSidebar } from "@/components/ui/filter-sidebar";
+import { FilterSidebar } from "@/components/custom/filter-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/useAuth";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { FlightCard } from "@/components/ui/flight-card";
+import { FlightCard } from "@/components/custom/flight-card";
 import  axios from "axios";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
@@ -90,7 +90,7 @@ function Flights() {
             limit: pageLimit
         }
         if (values?.departureDate) {
-            params.date = values.departureDate.toISOString().split("T")[0];
+            params.date = `${values.departureDate.getFullYear()}-${String(values.departureDate.getMonth() + 1).padStart(2, "0")}-${String(values.departureDate.getDate()).padStart(2, "0")}`;
         }
         if (values?.airline) {
             params.airline = values.airline;

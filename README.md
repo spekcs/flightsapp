@@ -12,6 +12,8 @@ Since data is pulled from the external API which doesn't have sorting, sorting o
 
 If recommendations don't make sense refresh the page, the phantom bookings may not have been all generated
 
+It suddenly gave me a total of 1940 flights instead of 485, this is an externalAPI bug I don't have time to fix
+
 
 ## External API
 

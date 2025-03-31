@@ -5,7 +5,7 @@ import {
     SidebarGroupContent,
     SidebarHeader,
   } from "@/components/ui/sidebar"
-import { Input } from "./input"
+import { Input } from "../ui/input"
 import {
     Select,
     SelectContent,
@@ -15,7 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { Button } from "./button"
+import { Button } from "../ui/button"
 
 
 interface SeatsSidebarProps {

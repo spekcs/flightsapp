@@ -5,7 +5,7 @@ import {
   SidebarGroupContent,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { Form, FormItem, FormField, FormLabel, FormControl, FormMessage, } from "./form"
+import { Form, FormItem, FormField, FormLabel, FormControl, FormMessage, } from "../ui/form"
 import {
   Select,
   SelectContent,
@@ -13,14 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Input } from "./input"
-import { Button } from "./button"
+import { Input } from "../ui/input"
+import { Button } from "../ui/button"
 import { z, } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Popover, PopoverTrigger, PopoverContent } from "./popover"
+import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover"
 
-import { format } from "date-fns"
+import { addDays, format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -56,6 +56,10 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
             endMM: ""
         }
     })
+
+    const handleClearFilters = () => {
+      form.reset();
+    }
 
 
   return (
@@ -206,7 +210,7 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="departureTime" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -221,6 +225,9 @@ export function FilterSidebar({ onSubmit }: FilterSidebarProps) {
             <Button type="submit">Apply</Button>
           </form>
         </Form>
+          </SidebarGroupContent>
+          <SidebarGroupContent className="pt-2">
+            <Button variant="ghost" onClick={handleClearFilters}>Clear filters</Button>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

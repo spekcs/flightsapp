@@ -1,4 +1,4 @@
-import LoginForm from "@/components/ui/loginform";
+import LoginForm from "@/components/custom/loginform";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
