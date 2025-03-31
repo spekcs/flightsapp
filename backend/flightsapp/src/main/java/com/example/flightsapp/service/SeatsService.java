@@ -146,7 +146,7 @@ public class SeatsService {
         for (SeatWithRecommendation seat : seats) {
             int row = Integer.parseInt(seat.getSeatCode().split("(?=[A-Z])")[0]);
             Integer score = 70 - Math.min(row, Math.min(Math.abs(13 - row), Math.min(Math.abs(14 - row), Math.abs(33 - row))));
-            if (seat.getSeatCode().startsWith("B") || seat.getSeatCode().startsWith("C")) {
+            if (seat.getSeatCode().startsWith("13") || seat.getSeatCode().startsWith("14")) {
                 score++;
             }
             seat.setScore(score);
@@ -155,7 +155,7 @@ public class SeatsService {
 
     private void recommendWindow(List<SeatWithRecommendation> seats) {
         for (SeatWithRecommendation seat : seats) {
-            if (seat.seatCode.startsWith("A") || seat.seatCode.startsWith("D")) {
+            if (seat.seatCode.endsWith("A") || seat.seatCode.endsWith("D")) {
                 seat.setScore(seat.getScore() + RECOMMENDATION_SCORE);
             }
         }
@@ -168,7 +168,7 @@ public class SeatsService {
             if (legRoomRows.contains(row)) {
                 seat.setScore(seat.getScore() + RECOMMENDATION_SCORE);
             }
-            if (seat.seatCode.startsWith("A") || seat.seatCode.startsWith("D")) {
+            if (seat.seatCode.endsWith("B") || seat.seatCode.endsWith("C")) {
                 seat.setScore(seat.getScore() + 1);
             }
         }

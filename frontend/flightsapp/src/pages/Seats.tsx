@@ -225,8 +225,8 @@ function Seats() {
                         key={seatCode}
                         onClick={() => handleSeatClick(seatCode)}
                         disabled={bookedSeatSet.has(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -237,8 +237,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -249,8 +249,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -261,8 +261,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -273,8 +273,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -285,8 +285,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -297,8 +297,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -309,8 +309,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -321,8 +321,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>
@@ -333,8 +333,8 @@ function Seats() {
                         key={seatCode}
                         disabled={bookedSeatSet.has(seatCode)}
                         onClick={() => handleSeatClick(seatCode)}
-                        className={`${!bookedSeatSet.has(seatCode) ? "hover:bg-red-200" : "bg-gray-400 cursor-not-allowed"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
-                        >{bookedSeatSet.has(seatCode) && (<p className="text-[0.35vw]">{seatCode}</p>)}
+                        className={`${bookedSeatSet.has(seatCode) ?  "bg-gray-400 cursor-not-allowed" : selectedSeats.includes(seatCode) ? "bg-red-400" : "hover:bg-red-200"}  border border-transparent pointer-events-auto rounded-[0.1rem]`}
+                        >{bookedSeatSet.has(seatCode) ? (<p className="text-[0.35vw]">{seatCode}</p>) : selectedSeats.includes(seatCode) && (<p className="text-[0.35vw] text-red-600">{seatCode}</p>)}
                         </button>
                     ))}
                 </div>

@@ -59,6 +59,16 @@ function Flights() {
         await axios.get("/api/flights", {
             params: filters || {},
         }).then(response => {
+            let flights: Flight[] = response.data.content;
+            const orderBy = filters?.orderBy;
+
+            if (orderBy === "departureTime") {
+                flights.sort((a: Flight, b: Flight) => 
+                    a.departureTime.localeCompare(b.departureTime)
+                );
+            } else if (orderBy === "flightTime") {
+                flights.sort((a: Flight, b: Flight) => a.flightTimeMinutes - b.flightTimeMinutes)
+            }
             setFlights(response.data.content);
             setTotalFlights(response.data.total)
             setError(null);
@@ -96,6 +106,9 @@ function Flights() {
         }
         if (values?.arrivalAirport) {
             params.arrivalAirport = values.arrivalAirport;
+        }
+        if (values?.orderBy) {
+            params.orderBy = values.orderBy;
         }
         
         setFilterParams(params);

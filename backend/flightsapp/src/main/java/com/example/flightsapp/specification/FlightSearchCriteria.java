@@ -9,7 +9,8 @@ public record FlightSearchCriteria (
         String timeEnd,
         String departureAirport,
         String arrivalAirport,
-        String airline
+        String airline,
+        String orderBy
 ){
 }
 

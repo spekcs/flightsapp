@@ -77,9 +77,17 @@ public class FlightsService {
                 flightRepository.saveAndFlush(flightEntity);
             }
         }
+        List<FlightDto> flightDtoList = flightsMapper.toDtoList(flightsList);
+        if (criteria.orderBy() != null) {
+            if (criteria.orderBy().equalsIgnoreCase("departureTime")) {
+                flightDtoList.sort(Comparator.comparing(FlightDto::departureTime));
+            } else if (criteria.orderBy().equalsIgnoreCase("flightTime")) {
+                flightDtoList.sort(Comparator.comparing(FlightDto::flightTimeMinutes));
+            }
+        }
 
 
-        return new PageResponse<>(flightsMapper.toDtoList(flightsList), response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
+        return new PageResponse<>(flightDtoList, response.pagination().offset(), response.pagination().limit(), response.pagination().count(), response.pagination().total());
     }
 
     public ResponseEntity<FlightDto> getFlight(Long id) {

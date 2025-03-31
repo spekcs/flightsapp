@@ -8,6 +8,8 @@ Reason: Frontend sends two requests at once
 
 Date on the calander shows one day forward
 
+Since data is pulled from the external API which doesn't have sorting, sorting only works per page.
+
 
 ## External API
 
