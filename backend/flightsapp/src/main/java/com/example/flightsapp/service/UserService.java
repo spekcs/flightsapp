@@ -25,7 +25,6 @@ public class UserService {
     private final UserIdService userIdService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final BookingRepository bookingRepository;
-    private final FlightRepository flightRepository;
     private final FlightsMapper flightsMapper;
     private final BookedSeatRepository bookedSeatRepository;
     private final SeatsMapper seatsMapper;

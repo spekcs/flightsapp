@@ -82,3 +82,4 @@ Sometimes the external API would load in much more data than there was to load, 
 - add tests with sufficient coverage
 - handle database errors properly (currently it's returning 403 a lot of the time, which is not the correct HTTP Code)
 - Logged in validation in the frontend, currently it's only checking whether a jwt is stored, which shows the /seats view rather than /login as it should. The backend obviously checks and sends back 403
+- add better test coverage

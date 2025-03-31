@@ -30,7 +30,6 @@ public class FlightsService {
     private final RestTemplate restTemplate;
     private final FlightsMapper flightsMapper;
     private final FlightRepository flightRepository;
-    private final Logger logger = LoggerFactory.getLogger(FlightsService.class);
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final UserIdService userIdService;
