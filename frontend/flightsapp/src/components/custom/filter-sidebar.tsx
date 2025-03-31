@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover"
 
-import { addDays, format } from "date-fns"
+import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"

@@ -103,8 +103,6 @@ def filter_data(offset, limit, date, time_start, time_end, dept_airport, arr_air
 
 @app.route("/")
 def get_flights():
-   if not data["data"]:
-      read_data()
 
    page_offset = request.args.get("page_offset", default=0, type=int)
    limit = request.args.get("limit", default=50, type=int)
@@ -120,4 +118,5 @@ def get_flights():
    return filtered_data;
 
 if __name__ == "__main__":
+   read_data();
    app.run(host="0.0.0.0", port=3000)

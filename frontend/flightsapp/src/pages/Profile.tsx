@@ -1,8 +1,7 @@
 import { useAuth } from "@/lib/useAuth";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useState } from "react";
 import axios from "axios"
 import {

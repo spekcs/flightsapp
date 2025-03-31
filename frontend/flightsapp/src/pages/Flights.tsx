@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { FlightCard } from "@/components/custom/flight-card";
 import  axios from "axios";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export type Flight = {
     flightId: number,

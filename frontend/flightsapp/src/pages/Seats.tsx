@@ -208,7 +208,7 @@ function Seats() {
       </div>
 
             <div className="absolute left-1/2 top-0 -translate-x-1/2 scale-[2] origin-top overflow-clip">
-                <img src="/public/E195-seat-map.svg" alt="Seat Map" className="w-full z-10 h-auto origin-top-left" />
+                <img src="/E195-seat-map.svg" alt="Seat Map" className="w-full z-10 h-auto origin-top-left" />
                 {/*Left top first class*/}
                 <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[12.2vw] left-[20.3vw] w-[3.6vw] h-[7.55vw] grid grid-cols-2 grid-rows-4 pointer-events-none">
                     {firstClassSeatsLeft.map((seatCode, _) => (

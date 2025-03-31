@@ -36,7 +36,7 @@ public class FlightsService {
     private final BookedSeatRepository bookedSeatRepository;
 
     public PageResponse<FlightDto> getFlights(FlightSearchCriteria criteria) {
-        String uri = "http://localhost:3000";
+        String uri = "http://externalapi:3000";
         UriComponents builder = UriComponentsBuilder.fromUri(URI.create(uri))
                 .queryParamIfPresent("page_offset", Optional.ofNullable(criteria.pageOffset()))
                 .queryParamIfPresent("limit", Optional.ofNullable(criteria.limit()))
