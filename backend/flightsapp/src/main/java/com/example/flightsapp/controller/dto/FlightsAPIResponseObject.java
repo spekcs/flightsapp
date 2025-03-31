@@ -1,9 +1,5 @@
 package com.example.flightsapp.controller.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
 

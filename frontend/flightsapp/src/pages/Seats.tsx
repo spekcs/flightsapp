@@ -12,6 +12,7 @@ import {
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
 import { SeatsSidebar } from "@/components/ui/seats-sidebar";
+import { Flight } from "./Flights";
 
 const firstClassSeatsLeft = [
     "1A", "1B", "2A", "2B", "3A", "3B", "4A", "4B"
@@ -58,18 +59,7 @@ const economyClassSeatsDottomRight = [
 ]
 
 
-type Flight = {
-    flightId: number,
-    departureAirport: string,
-    arrivalAirport: string,
-    date: string,
-    departureTime: string,
-    arrivalTime: string,
-    flightTimeMinutes: number,
-    airline: string
-};
-
-type Seat = {
+export type Seat = {
     seatCode: string
 }
 
@@ -103,7 +93,7 @@ function Seats() {
             setFlight(response.data)
             setError('');
         }).catch((error) => {
-            setError(error.message)
+            setError(error?.response?.data?.message || error.message)
         });
     }
 
@@ -114,9 +104,9 @@ function Seats() {
             }
         }).then((response) => {
             setBookedSeats(response.data)
-            setError('');
+            setError('')
         }).catch((error) => {
-            setError(error.message)
+            setError(error?.response?.data?.message || error.message)
         });
 
     }
@@ -135,9 +125,10 @@ function Seats() {
         })
         .then((response) => {
             setSelectedSeats(response.data?.map((seat: Seat) => seat.seatCode))
+            setError('')
         }
         ).catch((error) =>
-            console.error(error.message)
+            setError(error?.response?.data?.message || error.message)
         );
     }
 
@@ -185,7 +176,7 @@ function Seats() {
             navigate("/")
         }
         ).catch((error) =>
-            console.error(error.message)
+            setError(error?.response?.data?.message || error.message)
         );
     }
 
@@ -219,7 +210,7 @@ function Seats() {
             <div className="absolute left-1/2 top-0 -translate-x-1/2 scale-[2] origin-top overflow-clip">
                 <img src="/public/E195-seat-map.svg" alt="Seat Map" className="w-full z-10 h-auto origin-top-left" />
                 {/*Left top first class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[12.2vw] left-[20.3vw] w-[3.6vw] h-[7.5vw] grid grid-cols-2 grid-rows-4 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[12.2vw] left-[20.3vw] w-[3.6vw] h-[7.55vw] grid grid-cols-2 grid-rows-4 pointer-events-none">
                     {firstClassSeatsLeft.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -231,7 +222,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Right top first class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[12.2vw] left-[26.1vw] w-[3.6vw] h-[7.5vw] grid grid-cols-2 grid-rows-4 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[12.2vw] left-[26.15vw] w-[3.6vw] h-[7.55vw] grid grid-cols-2 grid-rows-4 pointer-events-none">
                     {firstClassSeatsRight.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -243,7 +234,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Left top business class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[20.1vw] left-[20.3vw] w-[3.6vw] h-[5.5vw] grid grid-cols-2 grid-rows-3 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.43vw] top-[20.1vw] left-[20.3vw] w-[3.6vw] h-[5.5vw] grid grid-cols-2 grid-rows-3 pointer-events-none">
                     {businessClassSeatsLeft.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -255,7 +246,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Right top business class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.5vw] top-[20.1vw] left-[26.1vw] w-[3.6vw] h-[5.5vw] grid grid-cols-2 grid-rows-3 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.43vw] top-[20.1vw] left-[26.15vw] w-[3.6vw] h-[5.5vw] grid grid-cols-2 grid-rows-3 pointer-events-none">
                     {businessClassSeatsRight.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -267,7 +258,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Left top economy class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[25.8vw] left-[20.3vw] w-[3.6vw] h-[8.25vw] grid grid-cols-2 grid-rows-5 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.17vw] top-[25.8vw] left-[20.3vw] w-[3.6vw] h-[8.29vw] grid grid-cols-2 grid-rows-5 pointer-events-none">
                     {economyClassSeatsTopLeft.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -279,7 +270,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Right top economy class*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[25.8vw] left-[26.1vw] w-[3.6vw] h-[8.25vw] grid grid-cols-2 grid-rows-5 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.17vw] top-[25.8vw] left-[26.15vw] w-[3.6vw] h-[8.29vw] grid grid-cols-2 grid-rows-5 pointer-events-none">
                     {economyClassSeatsTopRight.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -291,7 +282,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Left middle seats*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[35.15vw] left-[20.3vw] w-[3.6vw] h-[1.5vw] grid grid-cols-2 grid-rows-1 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[35.15vw] left-[20.3vw] w-[3.6vw] h-[1.53vw] grid grid-cols-2 grid-rows-1 pointer-events-none">
                     {middleSeatsLeft.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -303,7 +294,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Right middle seats*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[35.15vw] left-[26.1vw] w-[3.6vw] h-[1.5vw] grid grid-cols-2 grid-rows-1 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.2vw] top-[35.15vw] left-[26.15vw] w-[3.6vw] h-[1.53vw] grid grid-cols-2 grid-rows-1 pointer-events-none">
                     {middleSeatsRight.map((seatCode, _) => (
                         <button
                         key={seatCode}
@@ -327,7 +318,7 @@ function Seats() {
                     ))}
                 </div>
                 {/*Right bottom seats*/}
-                <div className="absolute gap-x-[0.3vw] gap-y-[0.22vw] top-[37.75vw] left-[26.1vw] w-[3.6vw] h-[34vw] grid grid-cols-2 grid-rows-20 pointer-events-none">
+                <div className="absolute gap-x-[0.3vw] gap-y-[0.22vw] top-[37.75vw] left-[26.15vw] w-[3.6vw] h-[34vw] grid grid-cols-2 grid-rows-20 pointer-events-none">
                     {economyClassSeatsDottomRight.map((seatCode, _) => (
                         <button
                         key={seatCode}

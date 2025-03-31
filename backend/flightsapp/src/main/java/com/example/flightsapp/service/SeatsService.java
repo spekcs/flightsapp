@@ -134,11 +134,16 @@ public class SeatsService {
     private static final Map<String, Integer> rows = Map.of("A", 1, "B", 2, "C", 3, "D", 4);
 
     private void recommendTogether(List<SeatWithRecommendation> seats) {
+        HashMap<String, Integer> rowsMap = new HashMap<>();
+
         for (SeatWithRecommendation seat : seats) {
-            String[] codeDecomp = seat.getSeatCode().split("(?=[A-Z])");
-            int row = Integer.parseInt(codeDecomp[0]);
-            int seatNumber = rows.get(codeDecomp[1]);
-            seat.setScore(row * 10 + seatNumber);
+            String row = seat.getSeatCode().split("(?=[A-Z])")[0];
+            rowsMap.put(row, rowsMap.getOrDefault(row, 0) + 1);
+        }
+
+        for (SeatWithRecommendation seat : seats) {
+            String row = seat.getSeatCode().split("(?=[A-Z])")[0];
+            seat.setScore(rowsMap.get(row));
         }
     }
 

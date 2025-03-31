@@ -1,6 +1,7 @@
 package com.example.flightsapp.service;
 
 import com.example.flightsapp.controller.dto.*;
+import com.example.flightsapp.exception.ApplicationException;
 import com.example.flightsapp.exception.ExternalAPIException;
 import com.example.flightsapp.exception.NotFoundException;
 import com.example.flightsapp.mapping.FlightsMapper;
@@ -31,7 +32,6 @@ public class FlightsService {
     private final Logger logger = LoggerFactory.getLogger(FlightsService.class);
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
     private final UserIdService userIdService;
     private final BookedSeatRepository bookedSeatRepository;
 
@@ -112,6 +112,10 @@ public class FlightsService {
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setFlight(flightEntity.get());
         bookingEntity.setUser(user.get());
+
+        if (bookingDto.seatCodes().isEmpty()) {
+            throw new ApplicationException("Booking must include at least one seat.");
+        }
 
         for (String seatCode : bookingDto.seatCodes()) {
             BookedSeatEntity bookedSeatEntity = new BookedSeatEntity();

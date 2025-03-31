@@ -1,7 +1,5 @@
 package com.example.flightsapp.controller.dto;
 
-import lombok.Data;
-
 public record FlightsAPIPagination (
     int count,
     int limit,

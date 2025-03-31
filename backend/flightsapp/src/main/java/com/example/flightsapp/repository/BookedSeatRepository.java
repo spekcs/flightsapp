@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookedSeatRepository extends JpaRepository<BookedSeatEntity, Long> {
     List<BookedSeatEntity> findByFlightId(Long id);
+    List<BookedSeatEntity> findAllByBooking(BookingEntity booking);
 }

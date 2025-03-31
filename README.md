@@ -10,6 +10,8 @@ Date on the calander shows one day forward
 
 Since data is pulled from the external API which doesn't have sorting, sorting only works per page.
 
+If recommendations don't make sense refresh the page, the phantom bookings may not have been all generated
+
 
 ## External API
 
@@ -39,3 +41,6 @@ Since I couldn't find any free flight apis with unlimited requests, I took some 
 - `arr_airport`
 - `airline` last 3 match like in SQL `%[string]%`, case insensitive
 
+## Things to improve
+
+- 

@@ -59,7 +59,8 @@ return (
         <SidebarHeader className="text-2xl pt-2">Select seats</SidebarHeader>
         <SidebarGroup className="gap-y-2">
         <SidebarGroupContent className="pt-2 pb-2">            
-            {!flight ? (<p className="text-red-500">{error || "Error retrieving flight info"}</p>) : 
+            {error && <p className="text-red-500">{error}</p>}
+            {flight  &&  
             (<div>
                 <div className="flex">
                     {departureTime} {flight.departureAirport}

@@ -16,7 +16,7 @@ import { FlightCard } from "@/components/ui/flight-card";
 import  axios from "axios";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
-type Flight = {
+export type Flight = {
     flightId: number,
     departureAirport: string,
     arrivalAirport: string,
